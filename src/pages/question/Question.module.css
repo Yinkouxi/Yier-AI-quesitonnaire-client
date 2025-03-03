@@ -1,0 +1,99 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+}
+
+.contentWrapper {
+  flex: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.questionnaireCard {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 24px;
+  color: #262626;
+  margin-bottom: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.description {
+  font-size: 14px;
+  color: #8c8c8c;
+  margin-bottom: 24px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.componentWrapper {
+  margin-bottom: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.componentWrapper:hover {
+  background: #fafafa;
+}
+
+.componentWrapper:last-child {
+  margin-bottom: 0;
+}
+
+.submitButton {
+  padding: 10px 28px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1677ff, #4096ff);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(22, 119, 255, 0.2);
+  display: block;
+  margin: 32px auto 0;
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(22, 119, 255, 0.3);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+}
+
+.errorContainer {
+  composes: questionnaireCard;
+  text-align: center;
+}
+
+.errorContainer h1 {
+  color: #ff4d4f;
+  margin-bottom: 12px;
+}
+
+.errorContainer p {
+  color: #8c8c8c;
+}
+
+.footer {
+  width: 100%;
+  text-align: center;
+  padding: 16px 0;
+  color: #8c8c8c;
+  font-size: 14px;
+  margin-top: 16px;
+} 

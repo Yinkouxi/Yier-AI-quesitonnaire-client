@@ -1,20 +1,21 @@
-import React, { FC } from 'react'
-import Head from 'next/head'
-import Script from 'next/script'
-import styles from '@/styles/Common.module.scss'
+import React, { FC } from "react";
+import Head from "next/head";
+import Script from "next/script";
+import styles from "@/styles/Common.module.scss";
 
 type PropsType = {
-  title: string
-  desc?: string
-  css?: string
-  js?: string
-  children: JSX.Element | JSX.Element[]
-}
+  title: string;
+  desc?: string;
+  css?: string;
+  js?: string;
+  children: JSX.Element | JSX.Element[];
+};
 
 const PageWrapper: FC<PropsType> = (props: PropsType) => {
-  const { title, desc = '', css = '', js = '', children } = props
+  const { title, desc = "", css = "", js = "", children } = props;
 
-  return <>
+  return (
+    <>
       <Head>
         <title>{title}</title>
         <meta name="description" content={desc} />
@@ -22,11 +23,10 @@ const PageWrapper: FC<PropsType> = (props: PropsType) => {
         <link rel="icon" href="/favicon.ico" />
         <style>{css}</style>
       </Head>
-      <main className={styles.container}>
-        {children}
-      </main>
+      <main className={styles.container}>{children}</main>
       <Script id="page-js">{js}</Script>
-  </>
-}
+    </>
+  );
+};
 
-export default PageWrapper
+export default PageWrapper;

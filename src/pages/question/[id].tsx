@@ -1,7 +1,7 @@
 import PageWrapper from "@/components/PageWrapper";
 import { getQuestionById } from "@/services/question";
 import { getComponent } from "@/components/QuestionComponents";
-import styles from "@/styles/Question.module.scss";
+import styles from "@/pages/question/Question.module.css";
 
 type PropsType = {
   errno: number;
@@ -25,8 +25,17 @@ export default function Question(props: PropsType) {
   if (errno !== 0) {
     return (
       <PageWrapper title="错误">
-        <h1>错误</h1>
-        <p>{msg}</p>
+        <div className={styles.container}>
+          <div className={styles.contentWrapper}>
+            <div className={styles.errorContainer}>
+              <h1>错误</h1>
+              <p>{msg}</p>
+            </div>
+          </div>
+          <div className={styles.footer}>
+            Powered by YierQuestionnaire © {new Date().getFullYear()}
+          </div>
+        </div>
       </PageWrapper>
     );
   }
@@ -44,8 +53,17 @@ export default function Question(props: PropsType) {
   if (isDeleted) {
     return (
       <PageWrapper title={title} desc={desc}>
-        <h1>{title}</h1>
-        <p>该问卷已经被删除</p>
+        <div className={styles.container}>
+          <div className={styles.contentWrapper}>
+            <div className={styles.errorContainer}>
+              <h1>{title}</h1>
+              <p>该问卷已经被删除</p>
+            </div>
+          </div>
+          <div className={styles.footer}>
+            Powered by YierQuestionnaire © {new Date().getFullYear()}
+          </div>
+        </div>
       </PageWrapper>
     );
   }
@@ -54,8 +72,17 @@ export default function Question(props: PropsType) {
   if (!isPublished) {
     return (
       <PageWrapper title={title} desc={desc}>
-        <h1>{title}</h1>
-        <p>该问卷尚未发布</p>
+        <div className={styles.container}>
+          <div className={styles.contentWrapper}>
+            <div className={styles.errorContainer}>
+              <h1>{title}</h1>
+              <p>该问卷尚未发布</p>
+            </div>
+          </div>
+          <div className={styles.footer}>
+            Powered by YierQuestionnaire © {new Date().getFullYear()}
+          </div>
+        </div>
       </PageWrapper>
     );
   }
@@ -76,16 +103,22 @@ export default function Question(props: PropsType) {
 
   return (
     <PageWrapper title={title} desc={desc}>
-      <form method="post" action="/api/answer">
-        <input type="hidden" name="questionId" value={id} />
-
-        {ComponentListElem}
-
-        <div className={styles.submitBtnContainer}>
-          {/* <input type="submit" value="提交"/> */}
-          <button type="submit">提交</button>
+      <div className={styles.container}>
+        <div className={styles.contentWrapper}>
+          <div className={styles.questionnaireCard}>
+            <form method="post" action="/api/answer">
+              <input type="hidden" name="questionId" value={id} />
+              {ComponentListElem}
+              <button type="submit" className={styles.submitButton}>
+                提交问卷
+              </button>
+            </form>
+          </div>
         </div>
-      </form>
+        <div className={styles.footer}>
+          Powered by YierQuestionnaire © {new Date().getFullYear()}
+        </div>
+      </div>
     </PageWrapper>
   );
 }

@@ -1,0 +1,174 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes checkAnimation {
+  0% {
+    transform: scale(0) rotate(-45deg);
+  }
+  70% {
+    transform: scale(1.2) rotate(-45deg);
+  }
+  100% {
+    transform: scale(1) rotate(-45deg);
+  }
+}
+
+@keyframes crossAnimation {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.contentWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.styledWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  animation: fadeIn 0.6s ease-out;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 60px 20px;
+  position: relative;
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #52c41a, #389e0d);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(82, 196, 26, 0.2);
+  position: relative;
+}
+
+.successIcon::after {
+  content: "";
+  width: 32px;
+  height: 20px;
+  border: 4px solid white;
+  border-top: none;
+  border-right: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -14px;
+  margin-left: -16px;
+  transform-origin: center;
+  animation: checkAnimation 0.6s ease-out forwards;
+}
+
+.failIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff4d4f, #cf1322);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(255, 77, 79, 0.2);
+  position: relative;
+}
+
+.failIcon::before,
+.failIcon::after {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background-color: white;
+  border-radius: 2px;
+  top: 50%;
+  left: 50%;
+  margin-left: -20px;
+  margin-top: -2px;
+  animation: crossAnimation 0.6s ease-out forwards;
+}
+
+.failIcon::before {
+  transform: rotate(45deg);
+}
+
+.failIcon::after {
+  transform: rotate(-45deg);
+}
+
+.title {
+  font-size: 28px;
+  color: #262626;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.subTitle {
+  font-size: 16px;
+  color: #8c8c8c;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.button {
+  padding: 12px 32px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #1677ff, #4096ff);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(22, 119, 255, 0.2);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(22, 119, 255, 0.3);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+.footer {
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+  color: #8c8c8c;
+  font-size: 14px;
+  margin-top: 20px;
+} 
