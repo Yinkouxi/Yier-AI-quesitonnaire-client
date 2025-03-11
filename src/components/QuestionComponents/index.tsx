@@ -1,10 +1,11 @@
-import QuestionInput from "./QuestionInput"
-import QuestionRadio from "./QuestionRadio"
+import QuestionInput from './QuestionInput'
+import QuestionRadio from './QuestionRadio'
 import QuestionTitle from './QuestionTitle'
 import QuestionParagraph from './QuestionParagraph'
-import QuestionInfo from "./QuestionInfo"
-import QuestionTextarea from "./QuestionTextarea"
-import QuestionCheckbox from "./QuestionCheckbox"
+import QuestionInfo from './QuestionInfo'
+import QuestionTextarea from './QuestionTextarea'
+import QuestionCheckbox from './QuestionCheckbox'
+import QuestionRating from './QuestionRating'
 
 type ComponentInfoType = {
   fe_id: string
@@ -46,6 +47,10 @@ export const getComponent = (comp: ComponentInfoType) => {
   if (type === 'questionCheckbox') {
     return <QuestionCheckbox fe_id={fe_id} props={props} />
   }
-  
+
+  if (type === 'questionRating') {
+    return <QuestionRating fe_id={fe_id} props={props} />
+  }
+
   return null
 }
