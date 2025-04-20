@@ -171,4 +171,23 @@
   color: #8c8c8c;
   font-size: 14px;
   margin-top: 20px;
+}
+
+.infoIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #f5a623;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.infoIcon:before {
+  content: "i";
+  font-size: 48px;
+  font-weight: bold;
+  color: white;
 } 
