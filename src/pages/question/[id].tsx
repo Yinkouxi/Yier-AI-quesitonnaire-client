@@ -31,35 +31,75 @@ export default function Question(props: PropsType) {
   const [submitError, setSubmitError] = useState('')
   const router = useRouter()
 
-  useEffect(() => {
-    // 检查用户是否已提交过该问卷
-    if (data && data._id) {
-      const hasSubmitted = hasSubmittedQuestionnaire(data._id)
-      setIsSubmitted(hasSubmitted)
+  // 关键: 等待路由准备好才执行跳转
+  const isRouterReady = router.isReady
 
-      // 如果已提交，重定向到专门的提示页面
-      if (hasSubmitted) {
+  useEffect(() => {
+    // 只在客户端且路由准备好后执行
+    if (typeof window !== 'undefined' && isRouterReady) {
+      // 检查用户是否已提交过该问卷
+      if (data && data._id) {
+        const hasSubmitted = hasSubmittedQuestionnaire(data._id)
+        setIsSubmitted(hasSubmitted)
+
+        // 如果已提交，重定向到专门的提示页面
+        if (hasSubmitted) {
+          router.push({
+            pathname: '/duplicate-submission',
+            query: { title: data.title, id: data._id },
+          })
+        }
+      }
+
+      // 数据错误时，重定向到错误页面
+      if (errno !== 0) {
         router.push({
-          pathname: '/duplicate-submission',
-          query: { title: data.title, id: data._id },
+          pathname: '/error',
+          query: {
+            title: '访问错误',
+            message: msg || '抱歉，您访问的问卷不存在或已被移除',
+          },
         })
       }
     }
-  }, [data, router])
+  }, [data, router, errno, msg, isRouterReady]) // 添加isRouterReady作为依赖
 
-  // 数据错误
-  if (errno !== 0) {
+  // 对于已删除和未发布的问卷，也需要同样处理
+  useEffect(() => {
+    if (typeof window !== 'undefined' && isRouterReady && data) {
+      // 已经被删除的，提示错误
+      if (data.isDeleted) {
+        router.push({
+          pathname: '/error',
+          query: {
+            title: data.title || '问卷已删除',
+            message: '该问卷已经被删除',
+          },
+        })
+      }
+
+      // 尚未发布的，提示错误
+      if (!data.isPublished) {
+        router.push({
+          pathname: '/error',
+          query: {
+            title: data.title || '问卷未发布',
+            message: '该问卷尚未发布',
+          },
+        })
+      }
+    }
+  }, [data, router, isRouterReady])
+
+  // 如果数据错误、问卷已删除或未发布，显示加载状态而不是立即返回null
+  if (errno !== 0 || (data && (data.isDeleted || !data.isPublished))) {
     return (
-      <PageWrapper title='错误'>
+      <PageWrapper title='加载中'>
         <div className={styles.container}>
           <div className={styles.contentWrapper}>
-            <div className={styles.errorContainer}>
-              <h1>错误</h1>
-              <p>{msg}</p>
+            <div className={styles.loadingContainer}>
+              <p>页面加载中...</p>
             </div>
-          </div>
-          <div className={styles.footer}>
-            Powered by YierQuestionnaire © {new Date().getFullYear()}
           </div>
         </div>
       </PageWrapper>
@@ -75,43 +115,7 @@ export default function Question(props: PropsType) {
     componentList = [],
   } = data || {}
 
-  // 已经被删除的，提示错误
-  if (isDeleted) {
-    return (
-      <PageWrapper title={title} desc={desc}>
-        <div className={styles.container}>
-          <div className={styles.contentWrapper}>
-            <div className={styles.errorContainer}>
-              <h1>{title}</h1>
-              <p>该问卷已经被删除</p>
-            </div>
-          </div>
-          <div className={styles.footer}>
-            Powered by YierQuestionnaire © {new Date().getFullYear()}
-          </div>
-        </div>
-      </PageWrapper>
-    )
-  }
-
-  // 尚未发布的，提示错误
-  if (!isPublished) {
-    return (
-      <PageWrapper title={title} desc={desc}>
-        <div className={styles.container}>
-          <div className={styles.contentWrapper}>
-            <div className={styles.errorContainer}>
-              <h1>{title}</h1>
-              <p>该问卷尚未发布</p>
-            </div>
-          </div>
-          <div className={styles.footer}>
-            Powered by YierQuestionnaire © {new Date().getFullYear()}
-          </div>
-        </div>
-      </PageWrapper>
-    )
-  }
+  console.log(data, 'data')
 
   // 处理表单提交
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -143,7 +147,7 @@ export default function Question(props: PropsType) {
         router.push('/success')
       } else {
         // 提交失败，但是由于已被提交的情况
-        if (res.msg && res.msg.includes('已经提交过')) {
+        if (res.msg && res.msg.includes('提交过') && res.errno === -1) {
           markQuestionnaireAsSubmitted(id)
           router.push({
             pathname: '/duplicate-submission',
